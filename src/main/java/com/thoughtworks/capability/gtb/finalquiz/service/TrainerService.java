@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainerService {
@@ -18,10 +19,10 @@ public class TrainerService {
     public void initTrainers() {
         List<Trainer> trainers = new ArrayList(){
             {
-                add(Trainee.builder().name("Trainer1").build());
-                add(Trainee.builder().name("Trainer2").build());
-                add(Trainee.builder().name("Trainer3").build());
-                add(Trainee.builder().name("Trainer4").build());
+                add(Trainer.builder().name("Trainer1").build());
+                add(Trainer.builder().name("Trainer2").build());
+                add(Trainer.builder().name("Trainer3").build());
+                add(Trainer.builder().name("Trainer4").build());
             }
         };
         trainerRepository.saveAll(trainers);
@@ -32,6 +33,9 @@ public class TrainerService {
     }
 
     public List<Trainer> getTrainerByGrouped(boolean grouped) {
+        if(!grouped) {
+            return trainerRepository.findAll().stream().filter(trainee -> trainee.getTeam() == null).collect(Collectors.toList());
+        }
         return null;
     }
 }
