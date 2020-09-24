@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class GroupService {
 
+    public static final int GROUP_MAX_SIZE = 2;
     @Autowired
     TrainerService trainerService;
     @Autowired
@@ -34,7 +35,7 @@ public class GroupService {
     }
 
     public List<Team> createGroups() throws TrainerSizeIsToLessException {
-        if(trainerRepository.findAll().size() < 2) {
+        if(trainerRepository.findAll().size() < GROUP_MAX_SIZE) {
             throw new TrainerSizeIsToLessException();
         }
         groupRepository.deleteAll();
@@ -44,7 +45,7 @@ public class GroupService {
         traineeService.initTrainees();
         List<Trainer> trainers = trainerRepository.findAll();
         List<Team> teams = new ArrayList<>();
-        int teamNumbers = trainers.size() / 2;
+        int teamNumbers = trainers.size() / GROUP_MAX_SIZE;
         for(int i = 0; i < teamNumbers; i ++) {
             Team team = Team.builder().name(i+1 + "组").trainees(new ArrayList<>()).trainers(new ArrayList<>()).build();
             pushTrainerToGroup(trainers, team);

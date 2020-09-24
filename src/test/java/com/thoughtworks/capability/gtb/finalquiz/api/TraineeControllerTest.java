@@ -63,9 +63,9 @@ class TraineeControllerTest {
                     .andExpect(status().isCreated())
                     .andReturn()
                     .getResponse();
-//            assertThat(response.getContentAsString()).isEqualTo(
-//                    traineeJacksonTester.write(firstTrainee).getJson()
-//            );
+            assertThat(response.getContentAsString()).isEqualTo(
+                    traineeJacksonTester.write(firstTrainee).getJson()
+            );
             verify(traineeService).createTrainee(firstTrainee);
         }
     }
