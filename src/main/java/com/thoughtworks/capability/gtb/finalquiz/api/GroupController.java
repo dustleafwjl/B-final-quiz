@@ -1,14 +1,13 @@
 package com.thoughtworks.capability.gtb.finalquiz.api;
 
 import com.thoughtworks.capability.gtb.finalquiz.domain.Team;
-import com.thoughtworks.capability.gtb.finalquiz.domain.Trainee;
 import com.thoughtworks.capability.gtb.finalquiz.service.GroupService;
-import com.thoughtworks.capability.gtb.finalquiz.service.TraineeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/groups")
 @ResponseBody

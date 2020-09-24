@@ -6,6 +6,7 @@ import com.thoughtworks.capability.gtb.finalquiz.domain.Trainer;
 import com.thoughtworks.capability.gtb.finalquiz.repository.GroupRepository;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TraineeRepository;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TrainerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
+
     private final GroupRepository groupRepository;
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
@@ -38,7 +40,18 @@ public class GroupService {
         }
         pushTraineeToGroup(teams);
 
-        return teams.stream().map(team -> groupRepository.save(team)).collect(Collectors.toList());
+        teams.stream().forEach(team -> {
+            Team saveTeam = groupRepository.save(team);
+            team.getTrainers().stream().forEach(trainer -> {
+                trainer.setTeam(saveTeam);
+                trainerRepository.save(trainer);
+            });
+            team.getTrainees().stream().forEach(trainee -> {
+                trainee.setTeam(saveTeam);
+                traineeRepository.save(trainee);
+            });
+        });
+        return teams;
     }
 
     private void pushTraineeToGroup(List<Team> teams) {
@@ -64,6 +77,6 @@ public class GroupService {
     }
 
     public List<Team> getAllGroup() {
-        return null;
+        return groupRepository.findAll();
     }
 }

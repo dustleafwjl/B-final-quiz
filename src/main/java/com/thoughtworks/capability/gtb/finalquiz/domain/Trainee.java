@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -26,6 +23,20 @@ public class Trainee {
     private String github;
     private String zoomId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @JoinColumn(name = "team_id")
     private Team team;
+
+    @Transient
+    private String teamName;
+
+    @PostLoad
+    public void setTeamName() {
+        if(team == null) {
+            this.teamName = "";
+            return ;
+        }
+        this.teamName = team.getName();
+    }
 }
