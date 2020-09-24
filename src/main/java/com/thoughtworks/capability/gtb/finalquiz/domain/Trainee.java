@@ -23,7 +23,7 @@ public class Trainee {
     private String github;
     private String zoomId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "team_id")
     private Team team;

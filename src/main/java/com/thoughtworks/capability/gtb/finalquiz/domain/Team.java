@@ -19,11 +19,9 @@ public class Team {
     private long id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List<Trainee> trainees;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List<Trainer> trainers;
 }

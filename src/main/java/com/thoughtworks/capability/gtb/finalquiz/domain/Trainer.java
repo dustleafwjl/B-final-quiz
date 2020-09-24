@@ -19,7 +19,7 @@ public class Trainer {
     private long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "team_id")
     private Team team;

@@ -17,6 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class GroupService {
 
+    @Autowired
+    TrainerService trainerService;
+    @Autowired
+    TraineeService traineeService;
     private final GroupRepository groupRepository;
     private final TraineeRepository traineeRepository;
     private final TrainerRepository trainerRepository;
@@ -30,6 +34,10 @@ public class GroupService {
 
     public List<Team> createGroups() {
         groupRepository.deleteAll();
+        traineeRepository.deleteAll();
+        trainerRepository.deleteAll();
+        trainerService.initTrainers();
+        traineeService.initTrainees();
         List<Trainer> trainers = trainerRepository.findAll();
         List<Team> teams = new ArrayList<>();
         int teamNumbers = trainers.size() / 2;
