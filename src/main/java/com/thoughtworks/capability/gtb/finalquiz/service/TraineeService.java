@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.finalquiz.service;
 
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainee;
+import com.thoughtworks.capability.gtb.finalquiz.exception.TraineeIsNotFoundException;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TraineeRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,10 @@ public class TraineeService {
             }
         };
         traineeRepository.saveAll(trainees);
+    }
+
+    public void deleteTrainee(long id) throws Exception {
+        Trainee trainee = traineeRepository.findById(id).orElseThrow(TraineeIsNotFoundException::new);
+        traineeRepository.delete(trainee);
     }
 }
