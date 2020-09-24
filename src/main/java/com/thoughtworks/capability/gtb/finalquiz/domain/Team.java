@@ -24,4 +24,7 @@ public class Team {
 
     @OneToMany
     private List<Trainee> trainees;
+
+    @OneToMany
+    private List<Trainer> trainers;
 }
