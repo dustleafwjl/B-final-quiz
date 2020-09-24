@@ -27,4 +27,9 @@ public class TrainerController {
     public List<Trainer> getTrainerByGrouped(@RequestParam("grouped") boolean grouped) {
         return trainerService.getTrainerByGrouped(grouped);
     }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTrainer(@PathVariable("id") long id) throws Exception {
+        trainerService.deleteTrainer(id);
+    }
 }

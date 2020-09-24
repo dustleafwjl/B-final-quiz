@@ -2,6 +2,7 @@ package com.thoughtworks.capability.gtb.finalquiz.service;
 
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainee;
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainer;
+import com.thoughtworks.capability.gtb.finalquiz.exception.TraineeIsNotFoundException;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,10 @@ public class TrainerService {
             return trainerRepository.findAll().stream().filter(trainee -> trainee.getTeam() == null).collect(Collectors.toList());
         }
         return null;
+    }
+
+    public void deleteTrainer(long id) throws TraineeIsNotFoundException {
+        Trainer trainer = trainerRepository.findById(id).orElseThrow(TraineeIsNotFoundException::new);
+        trainerRepository.delete(trainer);
     }
 }
