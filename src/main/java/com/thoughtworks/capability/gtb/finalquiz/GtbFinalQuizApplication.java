@@ -1,13 +1,13 @@
-package com.example.demo;
+package com.thoughtworks.capability.gtb.finalquiz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinalQuizApplication {
+public class GtbFinalQuizApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinalQuizApplication.class, args);
+		SpringApplication.run(GtbFinalQuizApplication.class, args);
 	}
 
 }
