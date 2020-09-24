@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResult handler(MethodArgumentNotValidException exception) {
         String defaultMessage = Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage();
-        return ErrorResult.builder().status(400).timestamp(new Date().toString()).message(defaultMessage).error("Bad Request").build();
+        return ErrorResult.builder().status(400).timestamp(new Date().toString()).message(defaultMessage).details("Bad Request").build();
     }
 
     @ExceptionHandler(TraineeIsNotFoundException.class)
@@ -25,6 +25,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResult handler(TraineeIsNotFoundException exception) {
         String defaultMessage = exception.getMessage();
-        return ErrorResult.builder().status(404).timestamp(new Date().toString()).message(defaultMessage).error("Not Found").build();
+        return ErrorResult.builder().status(404).timestamp(new Date().toString()).message(defaultMessage).details("Not Found").build();
+    }
+
+    @ExceptionHandler(TrainerSizeIsToLessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResult handler(TrainerSizeIsToLessException exception) {
+        String defaultMessage = exception.getMessage();
+        return ErrorResult.builder().status(400).timestamp(new Date().toString()).message(defaultMessage).details("Bad Request").build();
     }
 }

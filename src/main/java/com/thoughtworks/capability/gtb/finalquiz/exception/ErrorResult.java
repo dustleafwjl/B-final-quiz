@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class ErrorResult {
     private Integer status;
     private String timestamp;
-    private String error;
+    private String details;
     private String message;
 }

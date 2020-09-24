@@ -3,6 +3,7 @@ package com.thoughtworks.capability.gtb.finalquiz.service;
 import com.thoughtworks.capability.gtb.finalquiz.domain.Team;
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainee;
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainer;
+import com.thoughtworks.capability.gtb.finalquiz.exception.TrainerSizeIsToLessException;
 import com.thoughtworks.capability.gtb.finalquiz.repository.GroupRepository;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TraineeRepository;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TrainerRepository;
@@ -32,7 +33,10 @@ public class GroupService {
         this.trainerRepository = trainerRepository;
     }
 
-    public List<Team> createGroups() {
+    public List<Team> createGroups() throws TrainerSizeIsToLessException {
+        if(trainerRepository.findAll().size() < 2) {
+            throw new TrainerSizeIsToLessException();
+        }
         groupRepository.deleteAll();
         traineeRepository.deleteAll();
         trainerRepository.deleteAll();

@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.finalquiz.api;
 
 import com.thoughtworks.capability.gtb.finalquiz.domain.Team;
+import com.thoughtworks.capability.gtb.finalquiz.exception.TrainerSizeIsToLessException;
 import com.thoughtworks.capability.gtb.finalquiz.service.GroupService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class GroupController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Team> createGroup() {
+    public List<Team> createGroup() throws TrainerSizeIsToLessException {
         return groupService.createGroups();
     }
     @GetMapping

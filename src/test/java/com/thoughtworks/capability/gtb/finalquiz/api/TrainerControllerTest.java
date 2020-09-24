@@ -1,8 +1,8 @@
 package com.thoughtworks.capability.gtb.finalquiz.api;
 
-import com.thoughtworks.capability.gtb.finalquiz.domain.Trainee;
+
 import com.thoughtworks.capability.gtb.finalquiz.domain.Trainer;
-import com.thoughtworks.capability.gtb.finalquiz.service.TraineeService;
+import com.thoughtworks.capability.gtb.finalquiz.service.TrainerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -20,85 +20,86 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(TraineeController.class)
+@WebMvcTest(TrainerController.class)
 @AutoConfigureJsonTesters
-class TraineeControllerTest {
+class TrainerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private TraineeService traineeService;
+    private TrainerService trainerService;
     @Autowired
-    private JacksonTester<Trainee> traineeJacksonTester;
+    private JacksonTester<Trainer> trainerJacksonTester;
 
     @Autowired
-    private JacksonTester<List<Trainee>> traineesJacksonTester;
+    private JacksonTester<List<Trainer>> trainersJacksonTester;
 
-    private Trainee firstTrainee;
+    private Trainer firstTrainer;
 
     @BeforeEach
     public void beforeEach() {
-        firstTrainee = Trainee.builder().name("demotes").email("leqi@demo.com").github("leqi@demo.com").office("wuhan").build();
+        firstTrainer = Trainer.builder().name("test").build();
     }
 
     @AfterEach
     public void afterEach() {
-        Mockito.reset(traineeService);
+        Mockito.reset(trainerService);
     }
+
     @Nested
-    class createTrainee {
+    class createTrainer {
         @Test
-        public void should_return_new_user_when_given_user_info() throws Exception {
-            when(traineeService.createTrainee(firstTrainee)).thenReturn(firstTrainee);
-            MockHttpServletResponse response = mockMvc.perform(post("/trainees")
-                    .content(traineeJacksonTester.write(firstTrainee).getJson())
+        public void should_create_trainer_when_given_new_trainer() throws Exception{
+            when(trainerService.createTrainer(firstTrainer)).thenReturn(firstTrainer);
+            MockHttpServletResponse response = mockMvc.perform(post("/trainers").content(trainerJacksonTester.write(firstTrainer).getJson())
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated())
                     .andReturn()
                     .getResponse();
-//            assertThat(response.getContentAsString()).isEqualTo(
-//                    traineeJacksonTester.write(firstTrainee).getJson()
-//            );
-            verify(traineeService).createTrainee(firstTrainee);
+                        assertThat(response.getContentAsString()).isEqualTo(
+                    trainerJacksonTester.write(firstTrainer).getJson()
+            );
+            verify(trainerService).createTrainer(firstTrainer);
         }
     }
 
     @Nested
-    class getTraineeByGrouped {
+    class getTrainerByGrouped {
         @Test
         public void should_get_trainers_when_given_grouped() throws Exception {
-            List<Trainee> trainees = new ArrayList<>();
-            trainees.add(firstTrainee);
-            trainees.add(firstTrainee);
-            when(traineeService.getTraineeByGrouped(false)).thenReturn(trainees);
-            MockHttpServletResponse response = mockMvc.perform(get("/trainees?grouped=false"))
+            List<Trainer> trainers = new ArrayList<>();
+            trainers.add(firstTrainer);
+            trainers.add(firstTrainer);
+            when(trainerService.getTrainerByGrouped(false)).thenReturn(trainers);
+            MockHttpServletResponse response = mockMvc.perform(get("/trainers?grouped=false"))
                     .andExpect(status().isOk())
                     .andReturn()
                     .getResponse();
             assertThat(response.getContentAsString()).isEqualTo(
-                    traineesJacksonTester.write(trainees).getJson()
+                    trainersJacksonTester.write(trainers).getJson()
             );
-            verify(traineeService).getTraineeByGrouped(false);
+            verify(trainerService).getTrainerByGrouped(false);
         }
     }
 
     @Nested
-    class deleteTrainee {
+    class deleteTrainer {
         @Test
         public void should_return_no_content_when_given_trainer_id() throws Exception {
-            List<Trainee> trainees = new ArrayList<>();
-            trainees.add(firstTrainee);
-            trainees.add(firstTrainee);
-            mockMvc.perform(delete("/trainees/{id}", 123))
+            List<Trainer> trainers = new ArrayList<>();
+            trainers.add(firstTrainer);
+            trainers.add(firstTrainer);
+            mockMvc.perform(delete("/trainers/{id}", 123))
                     .andExpect(status().isNoContent());
-            verify(traineeService).deleteTrainee(123L);
+            verify(trainerService).deleteTrainer(123L);
         }
     }
 }
