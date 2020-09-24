@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 public class Trainee {
     @Id
     @GeneratedValue
-    @JsonIgnore
     private long id;
     private String name;
     private String office;

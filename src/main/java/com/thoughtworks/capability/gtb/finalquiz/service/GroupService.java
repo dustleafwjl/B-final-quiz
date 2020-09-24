@@ -8,7 +8,10 @@ import com.thoughtworks.capability.gtb.finalquiz.repository.TraineeRepository;
 import com.thoughtworks.capability.gtb.finalquiz.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
@@ -23,12 +26,41 @@ public class GroupService {
         this.trainerRepository = trainerRepository;
     }
 
-    public Team createGroup() {
+    public List<Team> createGroups() {
         groupRepository.deleteAll();
         List<Trainer> trainers = trainerRepository.findAll();
+        List<Team> teams = new ArrayList<>();
+        int teamNumbers = trainers.size() / 2;
+        for(int i = 0; i < teamNumbers; i ++) {
+            Team team = Team.builder().name(i+1 + "组").trainees(new ArrayList<>()).trainers(new ArrayList<>()).build();
+            pushTrainerToGroup(trainers, team);
+            teams.add(team);
+        }
+        pushTraineeToGroup(teams);
 
-        return null;
-//        return groupRepository.save();
+        return teams.stream().map(team -> groupRepository.save(team)).collect(Collectors.toList());
+    }
+
+    private void pushTraineeToGroup(List<Team> teams) {
+        Random random = new Random();
+        int index = 0;
+        List<Trainee> trainees = traineeRepository.findAll();
+        int size = trainees.size();
+        for (int i = 0; i < size; i ++) {
+            int randNum = random.nextInt(trainees.size());
+            teams.get(index).getTrainees().add(trainees.remove(randNum));
+            index = ++ index % teams.size();
+        }
+    }
+
+    private void pushTrainerToGroup(List<Trainer> trainers, Team team) {
+        Random random = new Random();
+        int randNum = random.nextInt(trainers.size());
+        Trainer trainer = trainers.remove(randNum);
+        team.getTrainers().add(trainer);
+        randNum = random.nextInt(trainers.size());
+        trainer = trainers.remove(randNum);
+        team.getTrainers().add(trainer);
     }
 
     public List<Team> getAllGroup() {

@@ -19,8 +19,8 @@ public class GroupController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Team createGroup() {
-        return groupService.createGroup();
+    public List<Team> createGroup() {
+        return groupService.createGroups();
     }
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
