@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResult handler(TraineeIsNotFoundException exception) {
         String defaultMessage = exception.getMessage();
+        // GTB: - magic number
         return ErrorResult.builder().status(404).timestamp(new Date().toString()).message(defaultMessage).details("Not Found").build();
     }
 
