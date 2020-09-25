@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
+// GTB: - Repository建议实现JpaRepository接口
 public interface TraineeRepository extends CrudRepository<Trainee, Long> {
     List<Trainee> findAll();
 }

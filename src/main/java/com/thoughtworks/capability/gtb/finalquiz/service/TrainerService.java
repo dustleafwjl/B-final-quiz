@@ -41,6 +41,7 @@ public class TrainerService {
     }
 
     public void deleteTrainer(long id) throws TraineeIsNotFoundException {
+        // GTB: - 异常使用错误
         Trainer trainer = trainerRepository.findById(id).orElseThrow(TraineeIsNotFoundException::new);
         trainerRepository.delete(trainer);
     }

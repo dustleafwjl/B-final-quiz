@@ -15,10 +15,12 @@ public class TraineeController {
     private final TraineeService traineeService;
     TraineeController(TraineeService traineeService) {
         this.traineeService = traineeService;
+        // GTB: - 不应该在应用代码中初始化数据库
         traineeService.initTrainees();
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    // GTB: - 创建时没有做属性校验
     public Trainee createTrainee(@RequestBody Trainee trainee) {
         return traineeService.createTrainee(trainee);
     }

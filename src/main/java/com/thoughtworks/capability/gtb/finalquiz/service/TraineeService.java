@@ -21,8 +21,10 @@ public class TraineeService {
 
     public List<Trainee> getTraineeByGrouped(boolean grouped) {
         if(!grouped) {
+            // GTB: - 通过SQL能做到的逻辑，应该优选用SQL，比如简单过滤
             return traineeRepository.findAll().stream().filter(trainee -> trainee.getTeam() == null).collect(Collectors.toList());
         }
+        // GTB: - grouped为true时，返回null不合适
         return null;
     }
 

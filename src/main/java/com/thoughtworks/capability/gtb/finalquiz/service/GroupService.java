@@ -21,6 +21,7 @@ public class GroupService {
 
     public static final int GROUP_MAX_SIZE = 2;
     @Autowired
+    // GTB: - 推荐使用构造器注入
     TrainerService trainerService;
     @Autowired
     TraineeService traineeService;
@@ -46,6 +47,7 @@ public class GroupService {
         List<Team> teams = new ArrayList<>();
         int teamNumbers = trainers.size() / GROUP_MAX_SIZE;
         for(int i = 0; i < teamNumbers; i ++) {
+            // GTB: - magic number
             Team team = Team.builder().name(i+1 + "组").trainees(new ArrayList<>()).trainers(new ArrayList<>()).build();
             pushTrainerToGroup(trainers, team);
             teams.add(team);
@@ -67,6 +69,7 @@ public class GroupService {
     }
 
     private void pushTraineeToGroup(List<Team> teams) {
+        // GTB: - 可以用Collections.shuffle()简化分组逻辑
         Random random = new Random();
         int index = 0;
         List<Trainee> trainees = traineeRepository.findAll();
