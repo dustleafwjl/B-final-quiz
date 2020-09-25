@@ -10,6 +10,7 @@ import com.thoughtworks.capability.gtb.finalquiz.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,15 +35,13 @@ public class GroupService {
         this.trainerRepository = trainerRepository;
     }
 
+    @Transactional
     public List<Team> createGroups() throws TrainerSizeIsToLessException {
         if(trainerRepository.findAll().size() < GROUP_MAX_SIZE) {
             throw new TrainerSizeIsToLessException();
         }
+
         groupRepository.deleteAll();
-        traineeRepository.deleteAll();
-        trainerRepository.deleteAll();
-        trainerService.initTrainers();
-        traineeService.initTrainees();
         List<Trainer> trainers = trainerRepository.findAll();
         List<Team> teams = new ArrayList<>();
         int teamNumbers = trainers.size() / GROUP_MAX_SIZE;
@@ -91,5 +90,9 @@ public class GroupService {
 
     public List<Team> getAllGroup() {
         return groupRepository.findAll();
+    }
+
+    public List<Team> changeGroupName() {
+        return null;
     }
 }

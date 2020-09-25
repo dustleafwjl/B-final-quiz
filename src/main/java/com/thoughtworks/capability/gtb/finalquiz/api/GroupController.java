@@ -27,4 +27,10 @@ public class GroupController {
     public List<Team> getAllGroup() {
         return groupService.getAllGroup();
     }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Team> changeGroupName(@PathVariable("id") long id, @RequestParam("name") String name) {
+        return groupService.changeGroupName();
+    }
 }
